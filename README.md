@@ -1,8 +1,10 @@
-# Sex
+Lazysex [![Build Status](https://travis-ci.org/killdream/lazysex.png)](https://travis-ci.org/killdream/lazysex)
+========================================================================
 
-[![Build Status](https://travis-ci.org/killdream/sex.png)](https://travis-ci.org/killdream/sex)
+Fucking lazy. Fucking functional. Fucking sequences.
 
-Fucking great functions for working with sequences. FP-style. Yo.
+IOW, this gives you monadic streams and lots of cool combinators to work with
+them.
 
 
 ### Platform support
@@ -10,19 +12,25 @@ Fucking great functions for working with sequences. FP-style. Yo.
 This library assumes an ES5 environment, but can be easily supported in ES3
 platforms by the use of shims. Just include [es5-shim][] :3
 
-[![browser support](http://ci.testling.com/killdream/sex.png)](http://ci.testling.com/killdream/sex)
+[![browser support](http://ci.testling.com/killdream/lazysex.png)](http://ci.testling.com/killdream/lazysex)
 
 
 ### Example
 
-( ... )
+```js
+var s = require('lazysex')
+var naturals = s.iterate(function(n) { return n + 1 }, 0)
+var squared  = naturals.map(function(n) { return n * n })
+
+squared.take(10) // => [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
 
 
 ### Installing
 
 Just grab it from NPM:
 
-    $ npm install sex
+    $ npm install lazysex
 
 
 ### Documentation
