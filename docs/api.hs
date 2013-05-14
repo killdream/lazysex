@@ -37,8 +37,8 @@ reduce :: (b, a -> b) -> strem a -> b
 head :: stream a -> Maybe a
 tail :: stream a -> stream a
 take :: int -> stream a -> stream a
-take-while :: (a -> bool) -> stream a -> stream a
+takeWhile :: (a -> bool) -> stream a -> stream a
 drop :: int -> stream a -> stream a
-drop-while :: (a -> bool) -> stream a -> stream a
-but-last :: stream a -> stream a
+dropWhile :: (a -> bool) -> stream a -> stream a
+butLast :: stream a -> stream a
 last :: stream a -> Maybe a
