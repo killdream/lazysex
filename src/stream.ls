@@ -78,9 +78,15 @@ Stream = Base.derive {
 
   # :: @stream a => (b, a -> b) -> b -> b
   reduce: (f, accumulated) ->
-    | @head is Nothing  => @empty!
-    | @tail is Nothing  => f accumulated, @head
-    | otherwise         => @tail!reduce-right f, (f accumulated, @head)
+    if @head is Nothing => b
+
+    s = this
+    while s.head isnt Nothing
+      accumulated = f accumulated, s.head
+      if s.tail is Nothing => break
+      else                 => s = s.tail!
+
+    return accumulated
 }
 
 
