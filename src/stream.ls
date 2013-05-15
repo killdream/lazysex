@@ -39,7 +39,7 @@ Stream = Base.derive {
     this
 
   # :: () -> string
-  to-string: -> "<Stream #{@head}:#{@tail?!}>"
+  to-string: -> "<Stream #{@head}:#{@tail!}>"
 
   # ---- Semigroup -----------------------------------------------------
   # :: @stream a => stream a -> stream a
@@ -67,6 +67,14 @@ Stream = Base.derive {
   # ---- Monad ---------------------------------------------------------
   # :: a -> stream a
   'of': (a) -> Stream.make a
+
+  # ---- Foldable ------------------------------------------------------
+  # :: @stream a => (b, a -> b) -> b -> b
+  reduce-right: (f, accumulated) ->
+    | @head is Nothing  => @empty!
+    | @tail! is Nothing => f accumulated, @head
+    | otherwise         => @tail!reduce-right f, (f accumulated, @head)
+
 }
 
 
