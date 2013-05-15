@@ -72,7 +72,7 @@ Stream = Base.derive {
   # ---- Foldable ------------------------------------------------------
   # :: @stream a => (b, a -> b) -> b -> b
   reduce-right: (f, accumulated) ->
-    | @head is Nothing  => @empty!
+    | @head is Nothing  => b
     | @tail is Nothing  => f accumulated, @head
     | otherwise         => f (@tail!reduce-right f, accumulated), @head
 
