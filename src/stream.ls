@@ -27,7 +27,8 @@
 # -- Dependencies ------------------------------------------------------
 { Base } = require 'boo'
 
-Nothing = { to-string: -> '(Nothing)' }
+Nothing           = -> Nothing
+Nothing.to-string = -> '(Nothing)'
 
 ### {} Stream a
 Stream = Base.derive {
@@ -35,7 +36,7 @@ Stream = Base.derive {
   # :: @stream a => a -> stream a
   init: (x) ->
     @head = x
-    @tail = -> Nothing
+    @tail = Nothing
     this
 
   # :: () -> string
@@ -45,9 +46,9 @@ Stream = Base.derive {
   # :: @stream a => stream a -> stream a
   concat: (as) ->
     | as.head is Nothing => this
-    | @head is Nothing   => as
-    | @tail! is Nothing  => @derive { tail: -> as }
-    | otherwise          => @derive { tail: ~> @tail!concat as }
+    | @head is Nothing  => as
+    | @tail is Nothing  => @derive { tail: -> as }
+    | otherwise         => @derive { tail: ~> @tail!concat as }
 
   # ---- Monoids -------------------------------------------------------  
   # :: () -> stream a
@@ -57,8 +58,8 @@ Stream = Base.derive {
   # :: @stream a => (a -> b) -> stream b
   map: (f) -> @derive do
                       head: (f @head)
-                      tail: ~> if @tail! isnt Nothing => @tail!map f
-                               else                   => Nothing
+                      tail: if @tail isnt Nothing => ~> @tail!map f
+                            else                  => Nothing
 
   # ---- Chain ---------------------------------------------------------
   # :: @stream a => (a -> stream a) -> stream a
@@ -72,7 +73,7 @@ Stream = Base.derive {
   # :: @stream a => (b, a -> b) -> b -> b
   reduce-right: (f, accumulated) ->
     | @head is Nothing  => @empty!
-    | @tail! is Nothing => f accumulated, @head
+    | @tail is Nothing  => f accumulated, @head
     | otherwise         => @tail!reduce-right f, (f accumulated, @head)
 
 }
