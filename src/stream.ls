@@ -35,19 +35,19 @@ Stream = Base.derive {
   # :: @stream a => a -> stream a
   init: (x) ->
     @head = x
-    @tail = Nothing
+    @tail = -> Nothing
     this
 
   # :: () -> string
-  to-string: -> "<Stream #{@head}:#{@tail}>"
+  to-string: -> "<Stream #{@head}:#{@tail?!}>"
 
   # ---- Semigroup -----------------------------------------------------
   # :: @stream a => stream a -> stream a
   concat: (as) ->
     | as.head is Nothing => this
     | @head is Nothing   => as
-    | @tail is Nothing   => @derive { tail: as }
-    | otherwise          => @derive { tail: @tail.concat as }
+    | @tail! is Nothing  => @derive { tail: -> as }
+    | otherwise          => @derive { tail: ~> @tail!concat as }
 
   # ---- Monoids -------------------------------------------------------  
   # :: () -> stream a
@@ -57,8 +57,8 @@ Stream = Base.derive {
   # :: @stream a => (a -> b) -> stream b
   map: (f) -> @derive do
                       head: (f @head)
-                      tail: if @tail => (f @tail)
-                            else     => Nothing
+                      tail: ~> if @tail! isnt Nothing => @tail!map f
+                               else                   => Nothing
 
   # ---- Chain ---------------------------------------------------------
   # :: @stream a => (a -> stream a) -> stream a
@@ -67,7 +67,6 @@ Stream = Base.derive {
   # ---- Monad ---------------------------------------------------------
   # :: a -> stream a
   'of': (a) -> Stream.make a
-
 }
 
 

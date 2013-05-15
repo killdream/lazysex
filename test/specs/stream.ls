@@ -13,7 +13,7 @@ module.exports = spec '{} Stream' (it, spec) ->
       as = one.concat(two).concat(three)
       bs = one.concat(two.concat(three))
 
-      expect(as.to-string!).to.equal(bs.to-string!)
+      expect (as.to-string!) .to.equal (bs.to-string!)
 
   spec ':: Monoid' (it) ->
     it 'right identity: m.concat(m.empty()) ≍ m' ->
