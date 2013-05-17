@@ -89,8 +89,7 @@ Stream = Base.derive {
     return accumulated
 }
 
-Nothing           = Stream.make!
-Nothing.tail      = -> Nothing
+Nothing           = Stream.make void, -> Nothing
 Nothing.to-string = -> '(Nothing)'
 
 
