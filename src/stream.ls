@@ -70,11 +70,11 @@ Stream = Base.derive {
   'of': (a) -> Stream.make a
 
   # ---- Foldable ------------------------------------------------------
-  # :: @stream a => (b, a -> b) -> b -> b
+  # :: @stream a => (a, b -> b) -> b -> b
   reduce-right: (f, accumulated) ->
     | @head is Nothing  => b
-    | @tail is Nothing  => f accumulated, @head
-    | otherwise         => f (@tail!reduce-right f, accumulated), @head
+    | @tail is Nothing  => f @head, -> accumulated
+    | otherwise         => f @head, ~> @tail!reduce-right f, accumulated
 
   # :: @stream a => (b, a -> b) -> b -> b
   reduce: (f, accumulated) ->
