@@ -53,10 +53,12 @@ Stream = Base.derive {
 
   # ---- Functors ------------------------------------------------------
   # :: @stream a => (a -> b) -> stream b
-  map: (f) -> @derive do
+  map: (f) -> do
+              rest = @tail!
+              @derive do
                       head: (f @head)
-                      tail: if @tail! is Nothing => -> Nothing
-                            else                 => ~> @tail!map f
+                      tail: if rest is Nothing => -> Nothing
+                            else               => ~> rest.map f
 
   # ---- Chain ---------------------------------------------------------
   # :: @stream a => (a -> stream a) -> stream a
