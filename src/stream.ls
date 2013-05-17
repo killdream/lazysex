@@ -27,16 +27,13 @@
 # -- Dependencies ------------------------------------------------------
 { Base } = require 'boo'
 
-Nothing           = -> Nothing
-Nothing.to-string = -> '(Nothing)'
-
 ### {} Stream a
 Stream = Base.derive {
 
   # :: @stream a => a -> stream a
   init: (x) ->
     @head = x
-    @tail = Nothing
+    @tail = -> Nothing
     this
 
   # :: () -> string
@@ -45,21 +42,21 @@ Stream = Base.derive {
   # ---- Semigroup -----------------------------------------------------
   # :: @stream a => stream a -> stream a
   concat: (as) ->
-    | as.head is Nothing => this
-    | @head is Nothing  => as
-    | @tail is Nothing  => @derive { tail: -> as }
-    | otherwise         => @derive { tail: ~> @tail!concat as }
+    | as     is Nothing  => this
+    | this   is Nothing  => as
+    | @tail! is Nothing  => @derive { tail: -> as }
+    | otherwise          => @derive { tail: ~> @tail!concat as }
 
   # ---- Monoids -------------------------------------------------------  
   # :: () -> stream a
-  empty: -> @make Nothing
+  empty: -> Nothing
 
   # ---- Functors ------------------------------------------------------
   # :: @stream a => (a -> b) -> stream b
   map: (f) -> @derive do
                       head: (f @head)
-                      tail: if @tail isnt Nothing => ~> @tail!map f
-                            else                  => Nothing
+                      tail: if @tail! is Nothing => -> Nothing
+                            else                 => ~> @tail!map f
 
   # ---- Chain ---------------------------------------------------------
   # :: @stream a => (a -> stream a) -> stream a
@@ -72,22 +69,26 @@ Stream = Base.derive {
   # ---- Foldable ------------------------------------------------------
   # :: @stream a => (a, b -> b) -> b -> b
   reduce-right: (f, initial) ->
-    | @head is Nothing  => initial
-    | @tail is Nothing  => f @head, -> initial
-    | otherwise         => f @head, ~> @tail!reduce-right f, initial
+    | this   is Nothing  => initial
+    | @tail! is Nothing  => f @head, -> initial
+    | otherwise          => f @head, ~> @tail!reduce-right f, initial
 
   # :: @stream a => (b, a -> b) -> b -> b
   reduce: (f, accumulated) ->
-    if @head is Nothing => accumulated
+    if this is Nothing => accumulated
 
     s = this
-    while s.head isnt Nothing
+    while s isnt Nothing
       accumulated = f accumulated, s.head
-      if s.tail is Nothing => break
-      else                 => s = s.tail!
+      rest = s.tail!
+      if rest is Nothing => break
+      else               => s = rest
 
     return accumulated
 }
+
+Nothing           = Stream.make!
+Nothing.to-string = -> '(Nothing)'
 
 
 
