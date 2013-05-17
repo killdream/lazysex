@@ -31,33 +31,33 @@
 # -- Reducing streams --------------------------------------------------
 
 # :: (A, B -> B) -> B -> stream A -> B
-fold = (f, initial, xs) --> xs.reduce-right f, initial
+fold = (f, initial, as) --> as.reduce-right f, initial
 
 # :: (B, A -> B) -> B -> stream A -> B
-foldl = (f, initial, xs) --> xs.reduce f, initial
+foldl = (f, initial, as) --> as.reduce f, initial
 
 
 # -- Accessing items from a Stream -------------------------------------
 
 # :: stream A -> maybe A
-head = (xs) -> xs.head
+head = (as) -> as.head
 
 # :: stream A -> stream A
-tail = (xs) -> xs.tail!
+tail = (as) -> as.tail!
 
 # :: stream A -> maybe A
 last = foldl ((a) -> a), void
 
-# :: stream A -> maybe A
-nth = (n, xs) -->
-  while --n and ((xs := xs.tail!) isnt Nothing) => void
-  xs.head
+# :: int -> stream A -> maybe A
+nth = (k, as) -->
+  while --k and ((as := as.tail!) isnt Nothing) => void
+  as.head
 
 # stream A -> stream A
-but-last = (xs) -> ...
+but-last = (as) -> ...
 
 # A -> stream A -> int
-index-of = (x, xs) --> ...
+index-of = (a, as) --> ...
 
 
 # -- Inspecting properties of a Stream ---------------------------------
@@ -81,22 +81,22 @@ reverse = (f, as) --> ...
 interpose = (separator, as) --> ...
 
 # :: stream A... -> stream A
-interleave = (xs...) -> ...
+interleave = (as...) -> ...
 
 
 # -- Special folds -----------------------------------------------------
 
 # :: stream A... -> stream A
-concat = (xs...) -> ...
+concat = (as...) -> ...
 
 # :: (A -> stream B) -> stream A -> stream B
-map-concat = (f, xs) -> ...
+map-concat = (f, as) --> ...
 
 # :: (A -> bool) -> stream A -> bool
-any = (f, as) -> ...
+any = (f, as) --> ...
 
 # :: (A -> bool) -> stream A -> bool
-all = (f, as) -> ...
+all = (f, as) --> ...
 
 # :: stream number -> number
 sum = foldl (+), 0
@@ -114,16 +114,67 @@ minimum = (as) -> ...
 # -- Building streams --------------------------------------------------
 
 # :: (A -> A) -> A -> stream A
-iterate = (f, initial) -> ...
+iterate = (f, initial) --> ...
 
 # :: A -> stream A
 repeat = (a) -> ...
 
 # :: int -> A -> stream A
-replicate = (n, a) -> ...
+replicate = (k, a) --> ...
 
 # :: stream A -> stream A
 cycle = (as) -> ...
+
+
+# -- Extracting parts of a stream --------------------------------------
+
+# :: int -> stream A -> stream A
+take = (k, as) --> ...
+
+# :: int -> stream A -> stream A
+drop = (k, as) --> ...
+
+# :: (A -> bool) -> stream A -> stream A
+take-while = (predicate, as) --> ...
+
+# :: (A -> bool) -> stream A -> stream A
+drop-while = (predicate, as) --> ...
+
+# :: int -> stream A -> #[stream A, stream A]
+split-at = (k, as) --> ...
+
+# :: (A -> bool) -> stream A -> #[stream A, stream A]
+span = (predicate, as) --> ...
+
+# :: (A -> bool) -> stream A -> #[stream A, stream A]
+break1 = (predicate, as) --> ... # TODO fix name
+
+
+# -- Searching for things inside streams -------------------------------
+
+# :: A -> stream A -> bool
+contains = (a, as) --> ...
+
+# :: (A -> bool) -> stream A -> maybe A
+find = (predicate, as) --> ...
+
+# :: (A -> bool) -> stream A -> stream A
+filter = (predicate, as) --> ...
+
+# :: (A -> bool) -> stream A -> #[stream A, stream A]
+partition = (predicate, as) --> ...
+
+
+# -- Zipping streams ---------------------------------------------------
+
+# :: stream A... -> [[stream A]]
+zip = (as...) -> ...
+
+# :: (A... -> B) -> stream A... -> [[stream B]]
+zip-with = (f, _) --> ...
+
+# :: [[stream A]] -> [[stream B]]
+unzip = (ass) -> ...
 
 
 # -- Exports -----------------------------------------------------------
