@@ -69,7 +69,7 @@ Stream = Base.derive {
   'of': (a) -> Stream.make a, -> Nothing
 
   # ---- Foldable ------------------------------------------------------
-  # :: @stream a => (a, b -> b) -> b -> b
+  # :: @stream a => (a, (() -> b) -> b) -> b -> b
   reduce-right: (f, initial) ->
     | this   is Nothing  => initial
     | @tail! is Nothing  => f @head, -> initial
