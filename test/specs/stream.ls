@@ -58,16 +58,13 @@ module.exports = spec '{} Stream' (it, spec) ->
       expect (Nothing.reduce-right (+ 1), 0) .to.equal 0
 
     it 'Should apply f to the first value, and the result of the rest.' ->
-      sum = two.reduce-right ((a, b) -> a + b!), 0
+      sum = two.reduce-right (+), 0
       expect sum .to.equal 3
 
-    it 'Should do so lazily.' ->
-      n = 2
-      reverse = ones.reduce-right ((a, b) ->
-                                          | --n => b!concat [a]
-                                          | _   => [a] ), []
-      expect reverse .to.deep.equal [1, 1]
-      
+    it 'Should be right-associative.' ->
+      as = two.reduce-right ((a, b) -> [a, b]), []
+      expect as .to.deep.equal [2, [1, []]]
+
   spec 'reduce(f, a)' ->
     it 'Folding an empty list should return the initial value.' ->
       expect (Nothing.reduce (+ 1), 0) .to.equal 0
@@ -75,3 +72,7 @@ module.exports = spec '{} Stream' (it, spec) ->
     it 'Should apply f to the first value, and the result of the rest.' ->
       sum = two.reduce (+), 0
       expect sum .to.equal 3
+
+    it 'Should be left associative.' ->
+      as = two.reduce ((a, b) -> [a, b]), []
+      expect as .to.deep.equal [[2, []], 1]
