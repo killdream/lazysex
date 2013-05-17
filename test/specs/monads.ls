@@ -1,11 +1,12 @@
 spec     = (require 'brofist')!
 {expect} = require 'chai'
-Stream   = require '../../lib/stream'
+{ Stream, Nothing }  = require '../../lib/stream'
+
 
 module.exports = spec '{} Stream - Monads' (it, spec) ->
-  one   = Stream.make 1
-  two   = Stream.make 2
-  three = Stream.make 3
+  one   = Stream.make 1 -> Nothing
+  two   = Stream.make 2 -> Nothing
+  three = Stream.make 3 -> Nothing
   inc   = (+ 1)
 
   spec ':: Semigroup' (it) ->
@@ -44,7 +45,7 @@ module.exports = spec '{} Stream - Monads' (it, spec) ->
 
   spec ':: Monad' (it) ->
     it 'left identity: m.of(a).chain(f) ≍ f(a)' ->
-      f = (x) -> Stream.make x + 1
+      f = (x) -> Stream.make x + 1, -> Nothing
       a = one.of 2 .chain f
 
       expect a.to-string! .to.equal (f 2).to-string!

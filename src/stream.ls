@@ -31,9 +31,9 @@
 Stream = Base.derive {
 
   # :: @stream a => a -> stream a
-  init: (x) ->
-    @head = x
-    @tail = -> Nothing
+  init: (head, tail) ->
+    @head = head
+    @tail = tail
     this
 
   # :: () -> string
@@ -64,7 +64,7 @@ Stream = Base.derive {
 
   # ---- Monad ---------------------------------------------------------
   # :: a -> stream a
-  'of': (a) -> Stream.make a
+  'of': (a) -> Stream.make a, -> Nothing
 
   # ---- Foldable ------------------------------------------------------
   # :: @stream a => (a, b -> b) -> b -> b
@@ -88,10 +88,11 @@ Stream = Base.derive {
 }
 
 Nothing           = Stream.make!
+Nothing.tail      = -> Nothing
 Nothing.to-string = -> '(Nothing)'
 
 
 
 
 ### -- Exports ---------------------------------------------------------
-module.exports = Stream
+module.exports = { Stream, Nothing }

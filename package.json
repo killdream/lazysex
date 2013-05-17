@@ -14,7 +14,7 @@
     "cc": "./node_modules/.bin/lsc -o lib -c src/*.ls",
     "test-cc": "./node_modules/.bin/lsc -o lib-test -c test/*.ls && ./node_modules/.bin/lsc -o lib-test/specs -c test/specs/*.ls",
     "pretest": "npm run-script cc && npm run-script test-cc",
-    "test": "brofist-cli ./lib-test/specs/stream.js",
+    "test": "brofist-cli ./lib-test/specs/index.js",
     "prepublish": "npm run-script cc"
   },
   "repository": {
