@@ -71,14 +71,14 @@ Stream = Base.derive {
 
   # ---- Foldable ------------------------------------------------------
   # :: @stream a => (a, b -> b) -> b -> b
-  reduce-right: (f, accumulated) ->
-    | @head is Nothing  => b
-    | @tail is Nothing  => f @head, -> accumulated
-    | otherwise         => f @head, ~> @tail!reduce-right f, accumulated
+  reduce-right: (f, initial) ->
+    | @head is Nothing  => initial
+    | @tail is Nothing  => f @head, -> initial
+    | otherwise         => f @head, ~> @tail!reduce-right f, initial
 
   # :: @stream a => (b, a -> b) -> b -> b
   reduce: (f, accumulated) ->
-    if @head is Nothing => b
+    if @head is Nothing => accumulated
 
     s = this
     while s.head isnt Nothing
