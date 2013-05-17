@@ -30,7 +30,7 @@
 ### {} Stream a
 Stream = Base.derive {
 
-  # :: @stream a => a -> stream a
+  # :: @stream a => a, a -> stream a
   init: (head, tail) ->
     @head = head
     @tail = tail
