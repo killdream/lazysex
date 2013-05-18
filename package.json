@@ -12,9 +12,9 @@
   },
   "scripts": {
     "cc": "./node_modules/.bin/lsc -o lib -c src/*.ls",
-    "test-cc": "./node_modules/.bin/lsc -o lib-test -c test/*.ls && ./node_modules/.bin/lsc -o lib-test/specs -c test/specs/*.ls",
+    "test-cc": "./node_modules/.bin/lsc -o build/test -c test/*.ls && ./node_modules/.bin/lsc -o build/test/specs -c test/specs/*.ls",
     "pretest": "npm run-script cc && npm run-script test-cc",
-    "test": "node ./lib-test/tap.js",
+    "test": "node ./build/test/tap.js",
     "prepublish": "npm run-script cc"
   },
   "repository": {
@@ -36,7 +36,7 @@
     ]
   },
   "testling": {
-    "files": "test/browserify.js",
+    "files": "build/test/tap.js",
     "browsers": [
       "ie/6..latest",
       "chrome/20..latest",
