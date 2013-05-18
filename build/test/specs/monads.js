@@ -18,7 +18,7 @@
       return it + 1;
     });
     spec(':: Semigroup', function(it){
-      return it('associativity: a.concat(b).concat(c) ≍ a.concat(b.concat(c))', function(){
+      return it('associativity: a.concat(b).concat(c) = a.concat(b.concat(c))', function(){
         var as, bs;
         as = one.concat(two).concat(three);
         bs = one.concat(two.concat(three));
@@ -26,24 +26,24 @@
       });
     });
     spec(':: Monoid', function(it){
-      it('right identity: m.concat(m.empty()) ≍ m', function(){
+      it('right identity: m.concat(m.empty()) = m', function(){
         var as;
         as = one.concat(one.empty());
         return expect(as.toString()).to.equal(one.toString());
       });
-      return it('left identity: m.empty().concat(m) ≍ m', function(){
+      return it('left identity: m.empty().concat(m) = m', function(){
         var as;
         as = one.empty().concat(one);
         return expect(as.toString()).to.equal(one.toString());
       });
     });
     spec(':: Functor', function(it){
-      it('identity: u.map(a => a) ≍ u', function(){
+      it('identity: u.map(a => a) = u', function(){
         return expect(one.map(function(it){
           return it;
         }).toString()).to.equal(one.toString());
       });
-      return it('composition: u.map(x => f(g(x))) ≍ u.map(g).map(f)', function(){
+      return it('composition: u.map(x => f(g(x))) = u.map(g).map(f)', function(){
         var a, b;
         a = one.map(function(it){
           return inc(inc(it));
@@ -53,7 +53,7 @@
       });
     });
     spec(':: Chain', function(it){
-      return it('associativity: m.chain(f).chain(g) ≍ m.chain(x => f(x).chain(g))', function(){
+      return it('associativity: m.chain(f).chain(g) = m.chain(x => f(x).chain(g))', function(){
         var f, g, a, b;
         f = function(x){
           return two;
@@ -69,7 +69,7 @@
       });
     });
     spec(':: Monad', function(it){
-      it('left identity: m.of(a).chain(f) ≍ f(a)', function(){
+      it('left identity: m.of(a).chain(f) = f(a)', function(){
         var f, a;
         f = function(x){
           return Stream.make(x + 1, function(){
@@ -79,7 +79,7 @@
         a = one.of(2).chain(f);
         return expect(a.toString()).to.equal(f(2).toString());
       });
-      return it('right identity: m.chain(m.of) ≍ m', function(){
+      return it('right identity: m.chain(m.of) = m', function(){
         var a;
         a = one.chain(one.of);
         return expect(a.toString()).to.equal(one.toString());
