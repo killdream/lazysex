@@ -2,7 +2,7 @@
   var spec, expect, ref$, Stream, Nothing;
   spec = require('brofist')();
   expect = require('chai').expect;
-  ref$ = require('../../../lib/stream'), Stream = ref$.Stream, Nothing = ref$.Nothing;
+  ref$ = require('../../lib/stream'), Stream = ref$.Stream, Nothing = ref$.Nothing;
   module.exports = spec('{} Stream', function(it, spec){
     var one, two, ones;
     one = Stream.make(1, function(){

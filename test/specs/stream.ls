@@ -1,6 +1,6 @@
 spec     = (require 'brofist')!
 {expect} = require 'chai'
-{Stream, Nothing} = require '../../../lib/stream'
+{Stream, Nothing} = require '../../lib/stream'
 
 module.exports = spec '{} Stream' (it, spec) ->
   one = Stream.make 1, -> Nothing
