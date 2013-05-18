@@ -36,8 +36,7 @@
     ]
   },
   "testling": {
-    "files": "lib-test/tap.js",
-    "preprocess": "npm run-script pretest",
+    "files": "test/browserify.js",
     "browsers": [
       "ie/6..latest",
       "chrome/20..latest",
