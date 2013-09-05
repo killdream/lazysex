@@ -1,18 +1,14 @@
-Lazysex [![Build Status](https://travis-ci.org/killdream/lazysex.png)](https://travis-ci.org/killdream/lazysex)
-========================================================================
+Lazysex 
+=======
 
-Fucking lazy. Fucking functional. Fucking sequences.
+[![experimental](http://hughsk.github.io/stability-badges/dist/experimental.svg)](http://github.com/hughsk/stability-badges)
+[![Build Status](https://secure.travis-ci.org/killdream/lazysex.png?branch=master)](https://travis-ci.org/killdream/lazysex)
+[![Dependencies Status](https://david-dm.org/killdream/lazysex.png)](https://david-dm.org/killdream/lazysex)
 
-IOW, this gives you monadic streams and lots of cool combinators to work with
-them.
+Monadic streams with lots of cool combinators to manipulate and abstract over
+them!
 
-
-### Platform support
-
-This library assumes an ES5 environment, but can be easily supported in ES3
-platforms by the use of shims. Just include [es5-shim][] :3
-
-[![browser support](http://ci.testling.com/killdream/lazysex.png)](http://ci.testling.com/killdream/lazysex)
+IOW, fucking lazy. Fucking functional. Fucking sequences.
 
 
 ### Example
@@ -43,9 +39,17 @@ A quick reference of the API can be built using [Calliope][]:
 
 ### Tests
 
-You can run all tests using Mocha:
+On Node:
 
     $ npm test
+
+
+### Platform support
+
+This library assumes an ES5 environment, but can be easily supported in ES3
+platforms by the use of shims. Just include [es5-shim][] :3
+
+[![browser support](http://ci.testling.com/killdream/lazysex.png)](http://ci.testling.com/killdream/lazysex)
 
 
 ### Licence
